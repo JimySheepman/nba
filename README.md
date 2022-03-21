@@ -48,7 +48,7 @@ $ docker run --name postgres -e POSTGRES_PASSWORD=root -d -p 5432:5432 postgres
 
 1. ER Diagram
 
-![ER Diagram](./assets/img/NBA-ER-Diagram.svg)
+![ER Diagram](./assets/img/NBA-ER-Diagram.png)
 
 ### Project Layout
 
