@@ -1,7 +1,13 @@
 package app
 
 import (
+	"auth-service/app/controllers"
+	"auth-service/app/routes"
+	"auth-service/configs"
 	_ "auth-service/docs"
+	"auth-service/domain/repository"
+	"auth-service/domain/services"
+	"auth-service/grpc/auth"
 
 	"github.com/gin-gonic/gin"
 	ginSwagger "github.com/swaggo/gin-swagger"
@@ -17,7 +23,7 @@ var (
 )
 
 func Start() {
-	userDB := confings.ConnectDB()
+	userDB := configs.ConnectDB()
 	userRepository = repository.NewUserRepository(userDB)
 	authService = services.NewAuthServiceImpl(userRepository)
 	authController = *controllers.NewAuthController(authService)
@@ -25,11 +31,11 @@ func Start() {
 
 	go auth.InitialiseAuthServer()
 
-	router := InitiseRestServer()
+	router := InitialiseRestServer()
 	router.Run(configs.EnvAuthHost() + ":" + configs.EnvPORT())
 }
 
-func InitiseRestServer() *gin.Engine {
+func InitialiseRestServer() *gin.Engine {
 	router := gin.Default()
 
 	router.GET("/swagger/*any", ginSwagger.WrapHandler(swaggerFiles.Handler))

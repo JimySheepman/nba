@@ -24,7 +24,7 @@ type SignedDetails struct {
 	jwt.StandardClaims
 }
 
-func CreateToken(id, emailId, name string, isAdmin bool) (string, *errors.AppError) {
+func CreateToken(id string, emailId, name string, isAdmin bool) (string, *errors.AppError) {
 	claims := &SignedDetails{
 		UserId:  id,
 		Name:    name,
@@ -35,7 +35,8 @@ func CreateToken(id, emailId, name string, isAdmin bool) (string, *errors.AppErr
 		},
 	}
 
-	token, err := jwt.NewWithClaims(jwt.SigningMethodES256, claims).SignedString([]byte(SECRET_KEY))
+	token, err := jwt.NewWithClaims(jwt.SigningMethodHS256, claims).SignedString([]byte(SECRET_KEY))
+
 	if err != nil {
 		return "", errors.NewBadRequestError("Error while creating token")
 	}

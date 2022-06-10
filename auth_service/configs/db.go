@@ -10,7 +10,6 @@ import (
 )
 
 func ConnectDB() *dynamodb.DynamoDB {
-
 	sess, _ := session.NewSession(&aws.Config{
 		Region:      aws.String(EnvRegion()),
 		Credentials: credentials.NewStaticCredentials(EnvAccessKey(), EnvAccessSecretKey(), ""),

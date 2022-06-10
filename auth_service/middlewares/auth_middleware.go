@@ -1,6 +1,7 @@
 package middlewares
 
 import (
+	"auth-service/utils"
 	"net/http"
 	"strings"
 
@@ -8,36 +9,27 @@ import (
 )
 
 func AuthenticateJWT() gin.HandlerFunc {
-	return func(ctx *gin.Context) {
-		authToken, err := ctx.Cookie("Authorization")
+	return func(c *gin.Context) {
+		authToken, err := c.Cookie("Authorization")
 		if err != nil {
-			ctx.JSON(http.StatusUnauthorized, gin.H{
-				"error": "Auth token not found",
-			})
-			ctx.Abort()
+			c.JSON(http.StatusUnauthorized, gin.H{"error": "Auth token not found"})
+			c.Abort()
 		}
-
 		token := strings.Fields(authToken)
 		tokenString := token[1]
-		verified, _ := utils.Validate(tokenString)
+		verified, _ := utils.ValidateToken(tokenString)
 		if !verified {
-			ctx.JSON(http.StatusInternalServerError, gin.H{
-				"error": "Invalid auth token",
-			})
-			ctx.Abort()
+			c.JSON(http.StatusInternalServerError, gin.H{"error": "Invalid auth token"})
+			c.Abort()
 			return
 		}
-
-		claims, err := utils.GetClaimsFromToken(tokenString)
-		if err != nil {
-			ctx.JSON(http.StatusInternalServerError, gin.H{
-				"error": "Invalid auth token",
-			})
-			ctx.Abort()
+		claims, err_ := utils.GetClaimsFromToken(tokenString)
+		if err_ != nil {
+			c.JSON(http.StatusInternalServerError, gin.H{"error": "Invalid auth token"})
+			c.Abort()
 			return
 		}
-
-		ctx.Set("user_details", claims)
+		c.Set("user_details", claims)
 	}
 }
 

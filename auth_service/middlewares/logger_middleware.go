@@ -1,6 +1,7 @@
 package middlewares
 
 import (
+	"auth-service/utils"
 	"bytes"
 	"fmt"
 	"time"
@@ -21,14 +22,17 @@ func (w bodyLogWriter) Write(b []byte) (int, error) {
 func LoggerMiddleware(topic string) gin.HandlerFunc {
 	l := utils.NewLoggerService(topic)
 	return func(c *gin.Context) {
+		// Start timer
 		start := time.Now()
 		path := c.Request.URL.Path
 
 		blw := &bodyLogWriter{body: bytes.NewBufferString(""), ResponseWriter: c.Writer}
 		c.Writer = blw
 
+		// Process request
 		c.Next()
 
+		// Stop timer
 		end := time.Now()
 		latency := end.Sub(start)
 

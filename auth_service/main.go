@@ -1,5 +1,7 @@
 package main
 
+import "auth-service/app"
+
 // @title           Auth Service API
 // @version         1.0.0
 // @description     Users can login and get a token and use it to access other APIs

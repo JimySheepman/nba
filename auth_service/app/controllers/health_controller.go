@@ -1,13 +1,14 @@
 package controllers
 
 import (
-	"net/http"
+	"auth-service/domain/services"
+	"auth-service/utils"
 
 	"github.com/gin-gonic/gin"
 )
 
 type HealthController struct {
-	healthService services.healthService
+	healthService services.HealthService
 }
 
 // HealthCheck godoc
@@ -20,10 +21,10 @@ type HealthController struct {
 // @Success	200  {object} 	utils.HealthCheckResponse
 // @Failure 500  {number} 	http.StatusInternalServerError
 // @Router / [GET]
-func (c HealthController) HealthCheck() gin.HandlerFunc {
+func (HealthController) HealthCheck() gin.HandlerFunc {
 	return func(c *gin.Context) {
 		response := utils.HealthCheck()
-		c.JSON(http.StatusOK, response)
+		c.JSON(200, response)
 	}
 }
 
@@ -37,9 +38,9 @@ func (c HealthController) HealthCheck() gin.HandlerFunc {
 // @Success	200  {object} 	utils.HealthCheckResponse
 // @Failure 500  {number} 	http.StatusInternalServerError
 // @Router /deep [GET]
-func (c HealthController) DeepHealthCheck() gin.HandlerFunc {
+func (HealthController) DeepHealthCheck() gin.HandlerFunc {
 	return func(c *gin.Context) {
 		response := utils.DeepHealthCheck()
-		c.JSON(http.StatusOK, response)
+		c.JSON(200, response)
 	}
 }

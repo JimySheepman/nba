@@ -1,10 +1,14 @@
 package controllers
 
 import (
+	"auth-service/domain/services"
+	"auth-service/dto"
+	"auth-service/utils"
 	"net/http"
 	"strings"
 	"time"
 
+	_ "github.com/dgrijalva/jwt-go"
 	"github.com/gin-gonic/gin"
 )
 
@@ -38,7 +42,7 @@ func NewAuthController(authService services.AuthService) *AuthController {
 // @Router /auth/login [POST]
 func (ac AuthController) Login() gin.HandlerFunc {
 	return func(c *gin.Context) {
-		var user dto.LoginDto
+		var user dto.LoginDTO
 
 		if err := c.BindJSON(&user); err != nil {
 			c.AbortWithStatusJSON(http.StatusBadRequest, gin.H{"error": err.Error()})
