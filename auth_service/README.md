@@ -22,7 +22,7 @@
 - Jenkins
 - Swagger UI
 
-# Checklist
+## Checklist
 
 - [x] Dockerized the services.
 - [x] Swagger Documentation for all the services
@@ -36,7 +36,7 @@
 - [x] Mock Testing using mockgen and testify
 - [x] Logging in a separate file
 
-# Setup
+## Setup
 
 1. Install dependencies using `go mod download`
 2. Replicate .env.example to .env
